@@ -22,7 +22,7 @@ public class UserCardEntity {
     }
 
     @ManyToOne
-    @JoinColumn(name="user", nullable=false)
+    @JoinColumn(name = "user", nullable = false)
     public UserEntity getUser() {
         return user;
     }
@@ -32,7 +32,7 @@ public class UserCardEntity {
     }
 
     @ManyToOne
-    @JoinColumn(name="card", nullable=false)
+    @JoinColumn(name = "card", nullable = false)
     public CardEntity getCard() {
         return card;
     }

@@ -54,7 +54,7 @@ public class UserEntity {
         this.password = password;
     }
 
-    @OneToMany(mappedBy="user")
+    @OneToMany(mappedBy = "user")
     public List<UserCardEntity> getCards() {
         return cards;
     }

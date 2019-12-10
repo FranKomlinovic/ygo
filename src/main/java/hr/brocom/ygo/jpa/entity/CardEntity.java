@@ -1,7 +1,6 @@
 package hr.brocom.ygo.jpa.entity;
 
 import javax.persistence.*;
-import java.awt.*;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.Objects;
@@ -211,7 +210,7 @@ public class CardEntity {
         this.code = code;
     }
 
-    @OneToMany(mappedBy="card")
+    @OneToMany(mappedBy = "card")
     public List<ImageEntity> getImageEntities() {
         return imageEntities;
     }
@@ -220,7 +219,7 @@ public class CardEntity {
         this.imageEntities = imageEntities;
     }
 
-    @OneToMany(mappedBy="card")
+    @OneToMany(mappedBy = "card")
     public List<UserCardEntity> getUserCardEntities() {
         return userCardEntities;
     }
@@ -259,5 +258,14 @@ public class CardEntity {
     @Override
     public int hashCode() {
         return Objects.hash(id, cardId, name, type, description, race, archetype, banlist, atk, def, level, attribute, scale, linkval, edition, rarity, price, code, imageEntities, userCardEntities);
+    }
+
+    @Override
+    public String toString() {
+        return "CardEntity{" +
+                "name='" + name + '\'' +
+                ", price=" + price +
+                ", code='" + code + '\'' +
+                '}';
     }
 }

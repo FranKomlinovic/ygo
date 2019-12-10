@@ -1,6 +1,7 @@
 package hr.brocom.ygo.ygoprodeck_api;
 
 import hr.brocom.ygo.jpa.jpaimpl.CardJpaImpl;
+import hr.brocom.ygo.jpa.jpaimpl.UserCardJpaImpl;
 import hr.brocom.ygo.jpa.jpaimpl.UserJpaImpl;
 import hr.brocom.ygo.model.UserDto;
 import hr.brocom.ygo.service.UserService;
@@ -28,21 +29,34 @@ class YgoProDeckApiConnectionTest {
     @Autowired
     UserService userService;
 
+    @Autowired
+    UserCardJpaImpl userCardJpa;
+
+
     @Test
     public void saveAllCardsToDatabase() {
         List<CardInfo> cardsFromApi = ygoProDeckApiConnection.getCardsFromApi();
-        List<CardInfo> collect = cardsFromApi.stream().limit(100).collect(Collectors.toList());
+        List<CardInfo> collect = cardsFromApi.stream().limit(10).collect(Collectors.toList());
         cardJpa.saveAllCards(collect);
-    }
 
-    @Test
-    @Transactional
-    public void saveUser() {
         UserDto user = new UserDto();
         user.setNickname("CroSlave");
         user.setMail("fran.komlinovic@gmail.com");
         user.setPassword("password");
         userService.saveUser(user);
+
+        userCardJpa.addCardToUser(user.getMail(), collect.get(3).getCardEditions().get(0).getSetCode(), 7 );
+    }
+
+    @Test
+    public void findByCode(){
+        String code = "SDCR-EN014";
+        cardJpa.findByCode(code);
+    }
+    @Test
+    @Transactional
+    public void saveUser() {
+
 
 
     }

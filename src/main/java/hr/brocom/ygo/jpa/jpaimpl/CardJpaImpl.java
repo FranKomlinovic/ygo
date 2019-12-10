@@ -7,12 +7,15 @@ import hr.brocom.ygo.jpa.repository.ImageRepository;
 import hr.brocom.ygo.ygoprodeck_api.response_dto.CardEdition;
 import hr.brocom.ygo.ygoprodeck_api.response_dto.CardImage;
 import hr.brocom.ygo.ygoprodeck_api.response_dto.CardInfo;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.ui.ModelMap;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 @Repository
 public class CardJpaImpl {
@@ -23,11 +26,16 @@ public class CardJpaImpl {
     @Autowired
     ImageRepository imageRepository;
 
-    int i = 0;
+    @Autowired
+    ModelMapper modelMapper;
 
     @Transactional
     public void saveAllCards(List<CardInfo> cardList) {
         cardList.forEach(cardInfo -> saveAllCardsToDatabase(cardInfo));
+    }
+
+    public CardInfo findByCode(String code) {
+        return modelMapper.map(cardRepository.findByCode(code).orElseThrow(NoSuchElementException::new), CardInfo.class);
     }
 
     private void saveAllCardsToDatabase(CardInfo card) {
@@ -78,10 +86,10 @@ public class CardJpaImpl {
             imageEntity.setImage(image.getImageUrl());
             imageEntity.setImageSmall(image.getImageUrlSmall());
             imageEntity.setCard(card);
-            System.out.println(i);
-            imageRepository.saveAndFlush(imageEntity);
-            i++;
+            imageEntityList.add(imageEntity);
+            System.out.println(card);
         }
+        imageRepository.saveAll(imageEntityList);
     }
 
 }
